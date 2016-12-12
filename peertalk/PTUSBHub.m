@@ -342,9 +342,9 @@ static NSString *kPlistPacketTypeConnect = @"Connect";
     return NO;
   }
   
-  // prevent SIGPIPE
 	int on = 1;
-	setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &on, sizeof(on));
+  setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &on, sizeof(on));
+  setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on));
   
   // Connect socket
   struct sockaddr_un addr;

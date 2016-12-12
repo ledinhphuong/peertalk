@@ -243,10 +243,10 @@ static const uint8_t kUserInfoKey;
   //addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
   //addr.sin_addr.s_addr = htonl(INADDR_ANY);
   addr.sin_addr.s_addr = htonl(address);
-  
-  // prevent SIGPIPE
+
 	int on = 1;
 	setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &on, sizeof(on));
+  setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on));
   
   // int socket, const struct sockaddr *address, socklen_t address_len
   if (connect(fd, (const struct sockaddr *)&addr, addr.sin_len) == -1) {
@@ -373,10 +373,10 @@ static const uint8_t kUserInfoKey;
     perror("accept()");
     return NO;
   }
-  
-  // prevent SIGPIPE
+
 	int on = 1;
 	setsockopt(clientSocketFD, SOL_SOCKET, SO_NOSIGPIPE, &on, sizeof(on));
+  setsockopt(clientSocketFD, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on));
   
   if (fcntl(clientSocketFD, F_SETFL, O_NONBLOCK) == -1) {
     perror("fcntl(.. O_NONBLOCK)");
